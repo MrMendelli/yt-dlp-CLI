@@ -2,7 +2,7 @@
 
 ## Disclaimer
 
-_This utility **does not** include [yt-dlp](https://github.com/yt-dlp/yt-dlp), but it will prompt you if it is not found with instructions._
+_This utility **does not** include [yt-dlp](https://github.com/yt-dlp/yt-dlp) or [ffmpeg](https://ffmpeg.org/), but it will prompt you if either is not found with instructions._
 
 ## Introduction
 
@@ -10,12 +10,12 @@ This is a simplistic CLI frontend that simplifies the downloading of video or au
 
 ## Use
 
-Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/releases/latest) and extract to a desired location. It is not recommended to extract to a UAC-protected parent directory. Once yt-dlp is downloaded and extracted, run the script and follow the prompts.
+Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/releases/latest) and extract to a desired location. It is not recommended to extract to a UAC-protected parent directory. Once yt-dlp and ffmpeg are downloaded and extracted, run the script and follow the prompts.
 
 ## Issues
 
 - Even if the yt-dlp build is up-to-date, leaving the window still opens the GitHub page due to batch limitations
-- [ffmpeg](https://ffmpeg.org/) is a requirement for downloading videos as audio, a fix was implemented but there is no current implementation of checking PATH so a relative path check is used instead
+- ffmpeg is a requirement for downloading videos as audio in newer yt-dlp builds, a fix was implemented but there is no current implementation of checking PATH so a relative path check is used instead
 - Not all base features are implemented, it is undecided if more will be added. Requests will not be taken, but PRs will be considered
 - An unideal method needed to be used for downloading Vorbis audio, upon completion a command is run to change the extensions of downloaded Vorbis outfiles due to batch limitations
 - Only Windows support is planned at the time of this readme's submission
