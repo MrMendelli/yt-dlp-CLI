@@ -18,6 +18,7 @@ Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/re
 - ffmpeg is a requirement for downloading videos as audio in newer yt-dlp builds, a fix was implemented but there is no current implementation of checking PATH so a relative path check is used instead
 - Not all base features are implemented, it is undecided if more will be added. Requests will not be taken, but PRs will be considered
 - An unideal method needed to be used for downloading Vorbis audio, upon completion a command is run to change the extensions of downloaded Vorbis outfiles due to batch limitations
+- Window does not rescale correctly when changed if the window is minimized between actions
 - Only Windows support is planned at the time of this readme's submission
 
 ## Contributing
