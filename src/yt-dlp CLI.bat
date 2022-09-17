@@ -20,6 +20,7 @@ echo 1. Download yt-dlp_win.zip
 echo 2. Extract contents to .\bin\ and restart script.
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 pause > nul
+goto :yt-dlpCheck
 
 :ffmpegCheck
 if not exist ".\bin\yt-dlp.exe" goto :yt-dlpCheck
@@ -38,7 +39,7 @@ echo 1. Download ffmpeg from either mirror.
 echo 2. Extract contents of bin to .\bin\ and restart script.
 start https://ffmpeg.org/download.html#build-windows/
 pause > nul
-exit /b
+goto :yt-dlpCheck
 
 :MainMenu
 cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
