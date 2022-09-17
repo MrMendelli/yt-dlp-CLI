@@ -25,5 +25,3 @@ Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/re
 
 Feel free to submit a PR, but please comment code when doing so. This is for clarity as batch has a range of use syntax and limitations that are too vast to account for so some things may seem unclear on first glance. 
 
-<sup>Reading this in Notepad? Try [Typora](https://typora.io/).</sup>
-
