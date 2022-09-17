@@ -1,41 +1,59 @@
 @echo off
 
-:Noyt-dlp
+:: Written by Mr. Mendelli
+:: GitHub: https://github.com/MrMendelli/yt-dlp-CLI
+
 md ".\bin\"
-if exist ".\bin\yt-dlp.exe" goto :MainMenu
+:yt-dlpCheck
+if exist ".\bin\yt-dlp.exe" goto :ffmpegCheck
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="youtube-dl.exe not found! Download now? "
-if /i "%choice%" equ "Y" goto :Download
 if /i "%choice%" equ "N" goto :EoF
-cls & echo.
-echo You must enter 'y' or 'n' to proceed... & pause > nul
-goto :Noyt-dlp
-
-:Download
-cls & mode con cols=58 lines=4 & title Download yt-dlp & color 0e & echo.
+if /i "%choice%" equ "Y" do
+cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
 echo 1. Download yt-dlp_win.zip
 echo 2. Extract contents to .\bin\ and restart script.
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 pause > nul
 exit /b
+cls & echo.
+echo You must enter 'y' or 'n' to proceed... & pause > nul
+goto :yt-dlpCheck
+
+:ffmpegCheck
+if exist ".\bin\ffmpeg.exe" goto :MainMenu
+cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
+set /p choice="ffmpeg not found! Download now? "
+if /i "%choice%" equ "N" goto :EoF
+if /i "%choice%" equ "Y" do
+cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
+echo 1. Download ffmpeg from either mirror.
+echo 2. Extract contents of bin to .\bin\ and restart script.
+start https://ffmpeg.org/download.html#build-windows/
+pause > nul
+exit /b
+cls & echo.
+echo You must enter 'y' or 'n' to proceed... & pause > nul
+goto :ffmpegCheck
 
 :MainMenu
-cls & mode con cols=58 lines=12 & title Main Menu & color cf
+cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|                    yt-dlp CLI                    ^|
+echo    ^|                     Main Menu                    ^|
 echo    ^|--------------------------------------------------^|
-echo    ^| Download ..................................... D ^|
-echo    ^| Update ....................................... U ^|
-echo    ^| Help (not all are applicable) ................ H ^|
-echo    ^| Exit ......................................... E ^|
+echo    ^| Download ..................................... 1 ^|
+echo    ^| Update ....................................... 2 ^|
+echo    ^| Help ......................................... 3 ^|
+echo    ^| Exit ......................................... 4 ^|
 echo    \__________________________________________________/
 echo.
+echo *Not all help topics are applicable.
 set /p choice="Choose a menu option: "
-if /i "%choice%" equ "D" goto :URL
-if /i "%choice%" equ "U" goto :Update
-if /i "%choice%" equ "H" goto :Help
-if /i "%choice%" equ "E" goto :EoF
+if /i "%choice%" equ "1" goto :URL
+if /i "%choice%" equ "2" goto :Update
+if /i "%choice%" equ "3" goto :Help
+if /i "%choice%" equ "4" goto :EoF
 cls & title Error! & color 0c
 echo You must enter a menu option to proceed... & pause > nul
 goto :MainMenu
@@ -47,17 +65,17 @@ start "" notepad ".\Help.txt"
 goto :MainMenu
 
 :Update
-cls
+cls & mode con cols=130 lines=30 & color 0f
 ".\bin\yt-dlp.exe" -U
 pause
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 goto :MainMenu
 
 :URL
-cls & mode con cols=58 lines=7 & title Enter URL & color cf
+cls & mode con cols=58 lines=7 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|                    yt-dlp CLI                    ^|
+echo    ^|              Video or Playlist URL               ^|
 echo    \__________________________________________________/
 echo.
 set /p url="URL: "
@@ -67,34 +85,33 @@ echo You must enter a URL to proceed... & pause > nul
 goto :URL
 
 :DownloadType
-cls & mode con cols=58 lines=10 & title Download Type & color cf
+cls & mode con cols=58 lines=10 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|                    yt-dlp CLI                    ^|
+echo    ^|                  Download Type                   ^|
 echo    ^|--------------------------------------------------^|
-echo    ^| Video ........................................ V ^|
-echo    ^| Audio ........................................ A ^|
+echo    ^| Video ........................................ 1 ^|
+echo    ^| Audio ........................................ 2 ^|
 echo    \__________________________________________________/
 echo.
 set /p option="Choose a menu option: "
-if /i "%option%" equ "V" goto :DownloadVideo
-if /i "%option%" equ "A" goto :AudioFormat
+if /i "%option%" equ "1" goto :DownloadVideo
+if /i "%option%" equ "2" goto :AudioFormat
 cls & title Error! & color 0c
 echo You must enter a menu option to proceed... & pause > nul
 goto :DownloadType
 
 :DownloadVideo
-cls & color 0a
-echo Video download in progress...
-".\bin\yt-dlp.exe" -f best -ci -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url%
+cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
+".\bin\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url%
 start "" explorer "%userprofile%\Videos\yt-dlp\"
-goto :URL
+goto :MainMenu
 
 :Audioformat
-cls & mode con cols=58 lines=16 & title Output Audio Format & color cf
+cls & mode con cols=58 lines=16 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|                    yt-dlp CLI                    ^|
+echo    ^|                Output Audio Format               ^|
 echo    ^|--------------------------------------------------^|
 echo    ^| Advanced Audio Coding ...................... AAC ^|
 echo    ^| Apple Lossless Audio Codec ................ ALAC ^|
@@ -120,12 +137,13 @@ echo You must enter a format to proceed... & pause > nul
 goto :Audioformat
 
 :AudioQuality
-cls & mode con cols=58 lines=7 & title Output Audio Quality & color cf
+cls & mode con cols=58 lines=8 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|                    yt-dlp CLI                    ^|
+echo    ^|               Output Audio Quality               ^|
 echo    \__________________________________________________/
 echo.
+echo *Highest= 0, lowest= 10
 set /p quality="Audio quality (0-10): "
 if /i "%quality%" equ "0" goto :DownloadAudio
 if /i "%quality%" equ "1" goto :DownloadAudio
@@ -143,9 +161,8 @@ echo You must enter a value to proceed... & pause > nul
 goto :AudioQuality
 
 :DownloadAudio
-cls & color 0a
-title Audio download in progress...
+cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
 ".\bin\yt-dlp.exe" -x --audio-format %format% --audio-quality %quality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%format%" %url%
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
-goto :URL
+goto :MainMenu

@@ -14,9 +14,11 @@ Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/re
 
 ## Issues
 
-- Not all base features are implemented, it is undecided if more will be added. Requests will not be taken, but PRs will be considered.
-- A hacky method needed to be used for downloading audio as Vorbis, upon completion a command is ran to change the extensions of downloaded Vorbis outfiles. This stems from batch limitations.
-- Only Windows support is planned at the time of this readme's submission.
+- Even if the yt-dlp build is up-to-date, leaving the window still opens the GitHub page due to batch limitations
+- [ffmpeg](https://ffmpeg.org/) is a requirement for downloading videos as audio, a fix was implemented but there is no current implementation of checking PATH so a relative path check is used instead
+- Not all base features are implemented, it is undecided if more will be added. Requests will not be taken, but PRs will be considered
+- An unideal method needed to be used for downloading Vorbis audio, upon completion a command is run to change the extensions of downloaded Vorbis outfiles due to batch limitations
+- Only Windows support is planned at the time of this readme's submission
 
 ## Contributing
 
