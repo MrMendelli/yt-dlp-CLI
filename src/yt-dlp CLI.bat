@@ -7,7 +7,7 @@ md ".\bin\"
 :yt-dlpCheck
 if exist ".\bin\yt-dlp.exe" goto :ffmpegCheck
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
-set /p choice="youtube-dl.exe not found! Download now? "
+set /p choice="yt-dlp.exe not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadyt-dlp
 if /i "%choice%" equ "N" goto :EoF
 cls & echo.
