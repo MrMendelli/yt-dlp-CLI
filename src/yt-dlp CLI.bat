@@ -8,33 +8,36 @@ md ".\bin\"
 if exist ".\bin\yt-dlp.exe" goto :ffmpegCheck
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="youtube-dl.exe not found! Download now? "
+if /i "%choice%" equ "Y" goto :Downloadyt-dlp
 if /i "%choice%" equ "N" goto :EoF
-if /i "%choice%" equ "Y" do
+cls & echo.
+echo You must enter 'y' or 'n' to proceed... & pause > nul
+goto :yt-dlpCheck
+
+:Downloadyt-dlp
 cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
 echo 1. Download yt-dlp_win.zip
 echo 2. Extract contents to .\bin\ and restart script.
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 pause > nul
-exit /b
-cls & echo.
-echo You must enter 'y' or 'n' to proceed... & pause > nul
-goto :yt-dlpCheck
 
 :ffmpegCheck
 if exist ".\bin\ffmpeg.exe" goto :MainMenu
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="ffmpeg not found! Download now? "
+if /i "%choice%" equ "Y" goto :Downloadffmpeg
 if /i "%choice%" equ "N" goto :EoF
-if /i "%choice%" equ "Y" do
+cls & echo.
+echo You must enter 'y' or 'n' to proceed... & pause > nul
+goto :ffmpegCheck
+
+:Downloadffmpeg
 cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
 echo 1. Download ffmpeg from either mirror.
 echo 2. Extract contents of bin to .\bin\ and restart script.
 start https://ffmpeg.org/download.html#build-windows/
 pause > nul
 exit /b
-cls & echo.
-echo You must enter 'y' or 'n' to proceed... & pause > nul
-goto :ffmpegCheck
 
 :MainMenu
 cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
