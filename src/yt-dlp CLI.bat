@@ -22,6 +22,7 @@ start https://github.com/yt-dlp/yt-dlp/releases/latest/
 pause > nul
 
 :ffmpegCheck
+if not exist ".\bin\yt-dlp.exe" goto :yt-dlpCheck
 if exist ".\bin\ffmpeg.exe" goto :MainMenu
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="ffmpeg not found! Download now? "
