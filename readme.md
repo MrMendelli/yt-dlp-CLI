@@ -14,7 +14,7 @@ Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/re
 
 ## Issues
 
-- Not all features are implemented, it is undecided on of more will be implemented. Requests will not be taken, but PRs will be considered.
+- Not all base features are implemented, it is undecided if more will be added. Requests will not be taken, but PRs will be considered.
 - A hacky method needed to be used for downloading audio as Vorbis, upon completion a command is ran to change the extensions of downloaded Vorbis outfiles. This stems from batch limitations.
 - Only Windows support is planned at the time of this readme's submission.
 
@@ -22,5 +22,5 @@ Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/re
 
 Feel free to submit a PR, but please comment code when doing so. This is for clarity as batch has a range of use syntax and limitations that are too vast to account for so some things may seem unclear on first glance. 
 
-<sup>Confused by this readme's formatting? Use [Typora](https://typora.io/).</sup>
+<sup>Reading this in Notepad? Try [Typora](https://typora.io/).</sup>
 
