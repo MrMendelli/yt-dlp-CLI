@@ -16,9 +16,11 @@ goto :yt-dlpCheck
 
 :Downloadyt-dlp
 cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
-echo 1. Download yt-dlp_win.zip
-echo 2. Extract contents to .\bin\ and restart script.
-start https://github.com/yt-dlp/yt-dlp/releases/latest/
+REM Fully automate the download and extraction with Windows built-in tools (Specific release of Windows 10+ Required)
+REM https://learn.microsoft.com/en-us/virtualization/community/team-blog/2017/20171219-tar-and-curl-come-to-windows
+CALL getLatestRelease.bat "https://github.com/yt-dlp/yt-dlp/releases/latest" "yt-dlp_win.zip" "%userprofile%\Downloads" || (
+    <NUL SET /P "=Download failed. " & PAUSE & EXIT
+)
 pause > nul
 goto :yt-dlpCheck
 
