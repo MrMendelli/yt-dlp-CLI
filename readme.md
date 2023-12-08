@@ -6,7 +6,7 @@ _This utility **does not** include [yt-dlp](https://github.com/yt-dlp/yt-dlp) or
 
 ## Introduction
 
-This is a simplistic CLI frontend that simplifies the downloading of video or audio for with functionality for all supported output audio formats and qualities. This works for individual videos or playlists. When downloads are completed, the output folder is made and opened upon completion.
+This tool aims to be a CLI frontend that simplifies the downloading of video or audio for [yt-dlp](https://github.com/yt-dlp/yt-dlp) with functionality for all supported output audio formats and qualities. This works for individual videos or playlists. When downloads are completed, the output folder is made and opened upon completion.
 
 ## Use
 

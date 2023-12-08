@@ -3,9 +3,9 @@
 :: Written by Mr. Mendelli
 :: GitHub: https://github.com/MrMendelli/yt-dlp-CLI
 
-md ".\bin\"
+md ".\yt-dlp\"
 :yt-dlpCheck
-if exist ".\bin\yt-dlp.exe" goto :ffmpegCheck
+if exist ".\yt-dlp\yt-dlp.exe" goto :ffmpegCheck
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="yt-dlp.exe not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadyt-dlp
@@ -15,16 +15,17 @@ echo You must enter 'y' or 'n' to proceed... & pause > nul
 goto :yt-dlpCheck
 
 :Downloadyt-dlp
-cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
+cls & mode con cols=58 lines=5 & title yt-dlp CLI & color 0e & echo.
 echo 1. Download yt-dlp_win.zip
-echo 2. Extract contents to .\bin\ and restart script.
+echo 2. Extract contents to .\yt-dlp\
+echo 3. Press any key to continue once installation is complete
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 pause > nul
 goto :yt-dlpCheck
 
 :ffmpegCheck
-if not exist ".\bin\yt-dlp.exe" goto :yt-dlpCheck
-if exist ".\bin\ffmpeg.exe" goto :MainMenu
+if not exist ".\yt-dlp\yt-dlp.exe" goto :yt-dlpCheck
+if exist ".\yt-dlp\ffmpeg.exe" goto :MainMenu
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="ffmpeg not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadffmpeg
@@ -34,14 +35,16 @@ echo You must enter 'y' or 'n' to proceed... & pause > nul
 goto :ffmpegCheck
 
 :Downloadffmpeg
-cls & mode con cols=58 lines=4 & title yt-dlp CLI & color 0e & echo.
-echo 1. Download ffmpeg from either mirror.
-echo 2. Extract contents of bin to .\bin\ and restart script.
+cls & mode con cols=58 lines=5 & title yt-dlp CLI & color 0e & echo.
+echo 1. Download ffmpeg from either mirror
+echo 2. Extract contents of bin to .\yt-dlp\
+echo 3. Press any key to continue once installation is complete
 start https://ffmpeg.org/download.html#build-windows/
 pause > nul
 goto :yt-dlpCheck
 
 :MainMenu
+set choice=""
 cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -65,18 +68,19 @@ goto :MainMenu
 
 :Help
 cls
-".\bin\yt-dlp.exe" --help> ".\Help.txt"
+".\yt-dlp\yt-dlp.exe" --help> ".\Help.txt"
 start "" notepad ".\Help.txt"
 goto :MainMenu
 
 :Update
 cls & mode con cols=130 lines=30 & color 0f
-".\bin\yt-dlp.exe" -U
+".\yt-dlp\yt-dlp.exe" -U
 pause
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 goto :MainMenu
 
 :URL
+set url=""
 cls & mode con cols=58 lines=7 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -90,6 +94,7 @@ echo You must enter a URL to proceed... & pause > nul
 goto :URL
 
 :DownloadType
+set option=""
 cls & mode con cols=58 lines=10 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -108,11 +113,12 @@ goto :DownloadType
 
 :DownloadVideo
 cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
-".\bin\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url%
+".\yt-dlp\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url%
 start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :Audioformat
+set format=""
 cls & mode con cols=58 lines=16 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -124,7 +130,7 @@ echo    ^| Free Lossless Audio codec ................. FLAC ^|
 echo    ^| MPEG-4 Audio ............................... M4A ^|
 echo    ^| MPEG-1 Audio Layer III ..................... MP3 ^|
 echo    ^| Opus ...................................... OPUS ^|
-echo    ^| Vorbis (OGG) ............................ Vorbus ^|
+echo    ^| Vorbis (OGG) ............................ Vorbis ^|
 echo    ^| Waveform Audio File Format ................. WAV ^|
 echo    \__________________________________________________/
 echo.
@@ -142,6 +148,7 @@ echo You must enter a format to proceed... & pause > nul
 goto :Audioformat
 
 :AudioQuality
+set quality=""
 cls & mode con cols=58 lines=8 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -167,7 +174,7 @@ goto :AudioQuality
 
 :DownloadAudio
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\bin\yt-dlp.exe" -x --audio-format %format% --audio-quality %quality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%format%" %url%
+".\yt-dlp\yt-dlp.exe" -x --audio-format %format% --audio-quality %quality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%format%" %url%
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
