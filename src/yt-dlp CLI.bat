@@ -44,7 +44,7 @@ pause > nul
 goto :yt-dlpCheck
 
 :MainMenu
-set choice=""
+set MenuChoice=""
 cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -57,11 +57,11 @@ echo    ^| Exit ......................................... 4 ^|
 echo    \__________________________________________________/
 echo.
 echo *Not all help topics are applicable.
-set /p choice="Choose a menu option: "
-if /i "%choice%" equ "1" goto :URL
-if /i "%choice%" equ "2" goto :Update
-if /i "%choice%" equ "3" goto :Help
-if /i "%choice%" equ "4" goto :EoF
+set /p MenuChoice="Choose a menu option: "
+if /i "%MenuChoice%" equ "1" goto :URL
+if /i "%MenuChoice%" equ "2" goto :Update
+if /i "%MenuChoice%" equ "3" goto :Help
+if /i "%MenuChoice%" equ "4" goto :EoF
 cls & title Error! & color 0c
 echo You must enter a menu option to proceed... & pause > nul
 goto :MainMenu
@@ -76,7 +76,6 @@ goto :MainMenu
 cls & mode con cols=130 lines=30 & color 0f
 ".\yt-dlp\yt-dlp.exe" -U
 pause
-start https://github.com/yt-dlp/yt-dlp/releases/latest/
 goto :MainMenu
 
 :URL
@@ -105,15 +104,35 @@ echo    ^| Audio ........................................ 2 ^|
 echo    \__________________________________________________/
 echo.
 set /p option="Choose a menu option: "
-if /i "%option%" equ "1" goto :DownloadVideo
+if /i "%option%" equ "1" goto :VideoFormat
 if /i "%option%" equ "2" goto :AudioFormat
 cls & title Error! & color 0c
 echo You must enter a menu option to proceed... & pause > nul
 goto :DownloadType
 
+:VideoFormat
+set format=""
+cls & mode con cols=58 lines=11 & title yt-dlp CLI & color cf
+echo     __________________________________________________
+echo    /                                                  \
+echo    ^|                Output Video Format               ^|
+echo    ^|--------------------------------------------------^|
+echo    ^| Matroska Video ............................. MKV ^|
+echo    ^| MPEG-4 ..................................... MP4 ^|
+echo    ^| WebM ...................................... WEBM ^|
+echo    \__________________________________________________/
+echo.
+set /p VideoFormat="Video format: "
+if /i "%VideoFormat%" equ "MKV" goto :DownloadVideo
+if /i "%VideoFormat%" equ "MP4" goto :DownloadVideo
+if /i "%VideoFormat%" equ "WEBM" goto :DownloadVideo
+cls & title Error! & color 0c
+echo You must enter a format to proceed... & pause > nul
+goto :VideoFormat
+
 :DownloadVideo
 cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url%
+".\yt-dlp\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url% --merge-output-format %VideoFormat%
 start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
@@ -134,21 +153,21 @@ echo    ^| Vorbis (OGG) ............................ Vorbis ^|
 echo    ^| Waveform Audio File Format ................. WAV ^|
 echo    \__________________________________________________/
 echo.
-set /p format="Audio format: "
-if /i "%format%" equ "AAC" goto :AudioQuality
-if /i "%format%" equ "ALAC" goto :AudioQuality
-if /i "%format%" equ "FLAC" goto :AudioQuality
-if /i "%format%" equ "M4A" goto :AudioQuality
-if /i "%format%" equ "MP3" goto :AudioQuality
-if /i "%format%" equ "OPUS" goto :AudioQuality
-if /i "%format%" equ "Vorbis" goto :AudioQuality
-if /i "%format%" equ "WAV" goto :AudioQuality
+set /p Audioformat="Audio format: "
+if /i "%Audioformat%" equ "AAC" goto :AudioQuality
+if /i "%Audioformat%" equ "ALAC" goto :AudioQuality
+if /i "%Audioformat%" equ "FLAC" goto :AudioQuality
+if /i "%Audioformat%" equ "M4A" goto :AudioQuality
+if /i "%Audioformat%" equ "MP3" goto :AudioQuality
+if /i "%Audioformat%" equ "OPUS" goto :AudioQuality
+if /i "%Audioformat%" equ "Vorbis" goto :AudioQuality
+if /i "%Audioformat%" equ "WAV" goto :AudioQuality
 cls & title Error! & color 0c
 echo You must enter a format to proceed... & pause > nul
 goto :Audioformat
 
 :AudioQuality
-set quality=""
+set AudioQuality=""
 cls & mode con cols=58 lines=8 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -156,25 +175,25 @@ echo    ^|               Output Audio Quality               ^|
 echo    \__________________________________________________/
 echo.
 echo *Highest= 0, lowest= 10
-set /p quality="Audio quality (0-10): "
-if /i "%quality%" equ "0" goto :DownloadAudio
-if /i "%quality%" equ "1" goto :DownloadAudio
-if /i "%quality%" equ "2" goto :DownloadAudio
-if /i "%quality%" equ "3" goto :DownloadAudio
-if /i "%quality%" equ "4" goto :DownloadAudio
-if /i "%quality%" equ "5" goto :DownloadAudio
-if /i "%quality%" equ "6" goto :DownloadAudio
-if /i "%quality%" equ "7" goto :DownloadAudio
-if /i "%quality%" equ "8" goto :DownloadAudio
-if /i "%quality%" equ "9" goto :DownloadAudio
-if /i "%quality%" equ "10" goto :DownloadAudio
+set /p AudioQuality="Audio quality (0-10): "
+if /i "%AudioQuality%" equ "0" goto :DownloadAudio
+if /i "%AudioQuality%" equ "1" goto :DownloadAudio
+if /i "%AudioQuality%" equ "2" goto :DownloadAudio
+if /i "%AudioQuality%" equ "3" goto :DownloadAudio
+if /i "%AudioQuality%" equ "4" goto :DownloadAudio
+if /i "%AudioQuality%" equ "5" goto :DownloadAudio
+if /i "%AudioQuality%" equ "6" goto :DownloadAudio
+if /i "%AudioQuality%" equ "7" goto :DownloadAudio
+if /i "%AudioQuality%" equ "8" goto :DownloadAudio
+if /i "%AudioQuality%" equ "9" goto :DownloadAudio
+if /i "%AudioQuality%" equ "10" goto :DownloadAudio
 cls & title Error! & color 0c
 echo You must enter a value to proceed... & pause > nul
 goto :AudioQuality
 
 :DownloadAudio
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" -x --audio-format %format% --audio-quality %quality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%format%" %url%
+".\yt-dlp\yt-dlp.exe" -x --audio-format %Audioformat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%Audioformat%" %url%
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
