@@ -9,7 +9,7 @@ if exist ".\yt-dlp\yt-dlp.exe" goto :ffmpegCheck
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="yt-dlp.exe not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadyt-dlp
-if /i "%choice%" equ "N" goto :EoF
+if /i "%choice%" equ "N" exit /b
 cls & echo.
 echo You must enter 'y' or 'n' to proceed... & pause > nul
 goto :yt-dlpCheck
@@ -29,7 +29,7 @@ if exist ".\yt-dlp\ffmpeg.exe" goto :MainMenu
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="ffmpeg not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadffmpeg
-if /i "%choice%" equ "N" goto :EoF
+if /i "%choice%" equ "N" exit /b
 cls & echo.
 echo You must enter 'y' or 'n' to proceed... & pause > nul
 goto :ffmpegCheck
@@ -44,7 +44,7 @@ pause > nul
 goto :yt-dlpCheck
 
 :MainMenu
-set MenuChoice=""
+set "MenuChoice="
 cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -61,7 +61,7 @@ set /p MenuChoice="Choose a menu option: "
 if /i "%MenuChoice%" equ "1" goto :URL
 if /i "%MenuChoice%" equ "2" goto :Update
 if /i "%MenuChoice%" equ "3" goto :Help
-if /i "%MenuChoice%" equ "4" goto :EoF
+if /i "%MenuChoice%" equ "4" exit /b
 cls & title Error! & color 0c
 echo You must enter a menu option to proceed... & pause > nul
 goto :MainMenu
@@ -79,69 +79,32 @@ pause
 goto :MainMenu
 
 :URL
-set url=""
+set "URL="
 cls & mode con cols=58 lines=7 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
 echo    ^|              Video or Playlist URL               ^|
 echo    \__________________________________________________/
 echo.
-set /p url="URL: "
-if /i "%url%" neq "" goto :DownloadType
+set /p URL="URL: "
+if /i "%URL%" neq "" goto :DownloadFormat
 cls & title Error! & color 0c
 echo You must enter a URL to proceed... & pause > nul
 goto :URL
 
-:DownloadType
-set option=""
-cls & mode con cols=58 lines=10 & title yt-dlp CLI & color cf
+:DownloadFormat
+set "DownloadFormat="
+cls & mode con cols=58 lines=23 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|                  Download Type                   ^|
+echo    ^|                      Video                       ^|
 echo    ^|--------------------------------------------------^|
-echo    ^| Video ........................................ 1 ^|
-echo    ^| Audio ........................................ 2 ^|
-echo    \__________________________________________________/
-echo.
-set /p option="Choose a menu option: "
-if /i "%option%" equ "1" goto :VideoFormat
-if /i "%option%" equ "2" goto :AudioFormat
-cls & title Error! & color 0c
-echo You must enter a menu option to proceed... & pause > nul
-goto :DownloadType
-
-:VideoFormat
-set format=""
-cls & mode con cols=58 lines=11 & title yt-dlp CLI & color cf
-echo     __________________________________________________
-echo    /                                                  \
-echo    ^|                Output Video Format               ^|
-echo    ^|--------------------------------------------------^|
+echo    ^| Audio Video Interleave ..................... AVI ^|
 echo    ^| Matroska Video ............................. MKV ^|
 echo    ^| MPEG-4 ..................................... MP4 ^|
 echo    ^| WebM ...................................... WEBM ^|
-echo    \__________________________________________________/
-echo.
-set /p VideoFormat="Video format: "
-if /i "%VideoFormat%" equ "MKV" goto :DownloadVideo
-if /i "%VideoFormat%" equ "MP4" goto :DownloadVideo
-if /i "%VideoFormat%" equ "WEBM" goto :DownloadVideo
-cls & title Error! & color 0c
-echo You must enter a format to proceed... & pause > nul
-goto :VideoFormat
-
-:DownloadVideo
-cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %url% --merge-output-format %VideoFormat%
-start "" explorer "%userprofile%\Videos\yt-dlp\"
-goto :MainMenu
-
-:Audioformat
-set format=""
-cls & mode con cols=58 lines=16 & title yt-dlp CLI & color cf
-echo     __________________________________________________
-echo    /                                                  \
-echo    ^|                Output Audio Format               ^|
+echo    ^|--------------------------------------------------^|
+echo    ^|                      Audio                       ^|
 echo    ^|--------------------------------------------------^|
 echo    ^| Advanced Audio Coding ...................... AAC ^|
 echo    ^| Apple Lossless Audio Codec ................ ALAC ^|
@@ -153,21 +116,27 @@ echo    ^| Vorbis (OGG) ............................ Vorbis ^|
 echo    ^| Waveform Audio File Format ................. WAV ^|
 echo    \__________________________________________________/
 echo.
-set /p Audioformat="Audio format: "
-if /i "%Audioformat%" equ "AAC" goto :AudioQuality
-if /i "%Audioformat%" equ "ALAC" goto :AudioQuality
-if /i "%Audioformat%" equ "FLAC" goto :AudioQuality
-if /i "%Audioformat%" equ "M4A" goto :AudioQuality
-if /i "%Audioformat%" equ "MP3" goto :AudioQuality
-if /i "%Audioformat%" equ "OPUS" goto :AudioQuality
-if /i "%Audioformat%" equ "Vorbis" goto :AudioQuality
-if /i "%Audioformat%" equ "WAV" goto :AudioQuality
+set /p DownloadFormat="Download format: "
+:: Video
+if /i "%DownloadFormat%" equ "AVI" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "MKV" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "MP4" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "WEBM" goto :DownloadVideo
+:: Audio
+if /i "%DownloadFormat%" equ "AAC" goto :AudioQuality
+if /i "%DownloadFormat%" equ "ALAC" goto :AudioQuality
+if /i "%DownloadFormat%" equ "FLAC" goto :AudioQuality
+if /i "%DownloadFormat%" equ "M4A" goto :AudioQuality
+if /i "%DownloadFormat%" equ "MP3" goto :AudioQuality
+if /i "%DownloadFormat%" equ "OPUS" goto :AudioQuality
+if /i "%DownloadFormat%" equ "Vorbis" goto :AudioQuality
+if /i "%DownloadFormat%" equ "WAV" goto :AudioQuality
 cls & title Error! & color 0c
 echo You must enter a format to proceed... & pause > nul
-goto :Audioformat
+goto :DownloadFormat
 
 :AudioQuality
-set AudioQuality=""
+set "AudioQuality="
 cls & mode con cols=58 lines=8 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
@@ -191,9 +160,15 @@ cls & title Error! & color 0c
 echo You must enter a value to proceed... & pause > nul
 goto :AudioQuality
 
+:DownloadVideo
+cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
+".\yt-dlp\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %URL% --merge-output-format %DownloadFormat%
+start "" explorer "%userprofile%\Videos\yt-dlp\"
+goto :MainMenu
+
 :DownloadAudio
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" -x --audio-format %Audioformat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%Audioformat%" %url%
+".\yt-dlp\yt-dlp.exe" -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%Audioformat%" %URL%
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
