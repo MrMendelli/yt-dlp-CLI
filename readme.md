@@ -20,6 +20,12 @@ Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/re
 - An unideal method needed to be used for downloading Vorbis audio, upon completion a command is run to change the extensions of downloaded Vorbis outfiles due to batch limitations
 - Window does not rescale correctly when changed if the window is minimized between actions
 - Only Windows support is planned at the time of this readme's submission
+- AVI: Downloads as multiple files (`<VideoTitle>.mp4`/`<VideoTitle>.webm`/`<VideoTitle>.avi`)
+- FLV: Downloads as multiple files (`<VideoTitle>.mp4`/`<VideoTitle>.webm`/`<VideoTitle>.flv`)
+- MOV: Downloads as multiple files (`<VideoTitle>.mp4`/`<VideoTitle>.webm`/`<VideoTitle>.mov`)
+- Webm: Downloads as multiple files (*.f136.mp4/*.f251.webm/*.webm)
+- AAC: Downloads as *.m4a
+- ALAC: Downloads as *.m4a
 
 ## Contributing
 

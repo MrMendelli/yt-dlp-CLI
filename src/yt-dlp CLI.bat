@@ -25,7 +25,7 @@ goto :yt-dlpCheck
 
 :ffmpegCheck
 if not exist ".\yt-dlp\yt-dlp.exe" goto :yt-dlpCheck
-if exist ".\yt-dlp\ffmpeg.exe" goto :MainMenu
+if exist ".\ffmpeg\ffmpeg.exe" goto :MainMenu
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="ffmpeg not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadffmpeg
@@ -83,7 +83,7 @@ set "URL="
 cls & mode con cols=58 lines=7 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
-echo    ^|              Video or Playlist URL               ^|
+echo    ^|          Video / Playlist / Channel URL          ^|
 echo    \__________________________________________________/
 echo.
 set /p URL="URL: "
@@ -94,13 +94,15 @@ goto :URL
 
 :DownloadFormat
 set "DownloadFormat="
-cls & mode con cols=58 lines=23 & title yt-dlp CLI & color cf
+cls & mode con cols=58 lines=30 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
 echo    ^|                      Video                       ^|
 echo    ^|--------------------------------------------------^|
 echo    ^| Audio Video Interleave ..................... AVI ^|
+echo    ^| Flash Video ................................ FLV ^|
 echo    ^| Matroska Video ............................. MKV ^|
+echo    ^| QuickTime  ................................. MOV ^|
 echo    ^| MPEG-4 ..................................... MP4 ^|
 echo    ^| WebM ...................................... WEBM ^|
 echo    ^|--------------------------------------------------^|
@@ -114,23 +116,33 @@ echo    ^| MPEG-1 Audio Layer III ..................... MP3 ^|
 echo    ^| Opus ...................................... OPUS ^|
 echo    ^| Vorbis (OGG) ............................ Vorbis ^|
 echo    ^| Waveform Audio File Format ................. WAV ^|
+echo    ^|--------------------------------------------------^|
+echo    ^|                     Images                       ^|
+echo    ^|--------------------------------------------------^|
+echo    ^| Channel Icon ............................... PFP ^|
+echo    ^| Thumbnail .................................. TMB ^|
 echo    \__________________________________________________/
 echo.
 set /p DownloadFormat="Download format: "
 :: Video
-if /i "%DownloadFormat%" equ "AVI" goto :DownloadVideo
-if /i "%DownloadFormat%" equ "MKV" goto :DownloadVideo
-if /i "%DownloadFormat%" equ "MP4" goto :DownloadVideo
-if /i "%DownloadFormat%" equ "WEBM" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "avi" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "flv" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "mkv" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "MOV" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "mp4" goto :DownloadVideo
+if /i "%DownloadFormat%" equ "webm" goto :DownloadVideo
 :: Audio
-if /i "%DownloadFormat%" equ "AAC" goto :AudioQuality
-if /i "%DownloadFormat%" equ "ALAC" goto :AudioQuality
-if /i "%DownloadFormat%" equ "FLAC" goto :AudioQuality
-if /i "%DownloadFormat%" equ "M4A" goto :AudioQuality
-if /i "%DownloadFormat%" equ "MP3" goto :AudioQuality
-if /i "%DownloadFormat%" equ "OPUS" goto :AudioQuality
-if /i "%DownloadFormat%" equ "Vorbis" goto :AudioQuality
-if /i "%DownloadFormat%" equ "WAV" goto :AudioQuality
+if /i "%DownloadFormat%" equ "aac" goto :AudioQuality
+if /i "%DownloadFormat%" equ "alac" goto :DownloadLossless
+if /i "%DownloadFormat%" equ "flac" goto :DownloadLossless
+if /i "%DownloadFormat%" equ "m4a" goto :AudioQuality
+if /i "%DownloadFormat%" equ "mp3" goto :AudioQuality
+if /i "%DownloadFormat%" equ "opus" goto :AudioQuality
+if /i "%DownloadFormat%" equ "vorbis" goto :AudioQuality
+if /i "%DownloadFormat%" equ "wav" goto :DownloadLossless
+:: Images
+if /i "%DownloadFormat%" equ "pfp" goto :DownloadIcon
+if /i "%DownloadFormat%" equ "tmb" goto :DownloadThumbnail
 cls & title Error! & color 0c
 echo You must enter a format to proceed... & pause > nul
 goto :DownloadFormat
@@ -162,13 +174,31 @@ goto :AudioQuality
 
 :DownloadVideo
 cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s" %URL% --merge-output-format %DownloadFormat%
+".\yt-dlp\yt-dlp.exe" %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadAudio
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%Audioformat%" %URL%
+".\yt-dlp\yt-dlp.exe" %URL% -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
+goto :MainMenu
+
+:DownloadLossless
+cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
+".\yt-dlp\yt-dlp.exe" %URL% -x --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+start "" explorer "%userprofile%\Music\yt-dlp\"
+goto :MainMenu
+
+:DownloadIcon
+cls & mode con cols=130 lines=30 & title Channel icon download in progress... & color 0a
+".\yt-dlp\yt-dlp.exe" %URL% --playlist-items 0 --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
+start "" explorer "%userprofile%\Pictures\yt-dlp\"
+goto :MainMenu
+
+:DownloadThumbnail
+cls & mode con cols=130 lines=30 & title Thumbnail download in progress... & color 0a
+".\yt-dlp\yt-dlp.exe" %URL% --skip-download --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
+start "" explorer "%userprofile%\Pictures\yt-dlp\"
 goto :MainMenu
