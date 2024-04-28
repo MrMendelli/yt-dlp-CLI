@@ -12,6 +12,8 @@ This tool aims to be a CLI frontend that simplifies the downloading of video or 
 
 Simply download the [latest release](https://github.com/MrMendelli/yt-dlp-CLI/releases/latest) and extract to a desired location. It is not recommended to extract to a UAC-protected parent directory. Once yt-dlp and ffmpeg are downloaded and extracted, run the script and follow the prompts.
 
+I use [Export Cookies by Rotem Dan](https://addons.mozilla.org/en-US/firefox/addon/export-cookies-txt/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search) for extracting browser cookies. Place `cookies.txt` in the working directory, cookies will automatically be loaded when downloading a video.
+
 ## Issues
 
 - Even if the yt-dlp build is up-to-date, leaving the window still opens the GitHub page due to batch limitations
