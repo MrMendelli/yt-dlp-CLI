@@ -174,31 +174,31 @@ goto :AudioQuality
 
 :DownloadVideo
 cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadAudio
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" %URL% -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
 
 :DownloadLossless
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" %URL% -x --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% -x --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
 
 :DownloadIcon
 cls & mode con cols=130 lines=30 & title Channel icon download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" %URL% --playlist-items 0 --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --playlist-items 0 --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Pictures\yt-dlp\"
 goto :MainMenu
 
 :DownloadThumbnail
 cls & mode con cols=130 lines=30 & title Thumbnail download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" %URL% --skip-download --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Pictures\yt-dlp\"
 goto :MainMenu
