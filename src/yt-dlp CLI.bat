@@ -94,7 +94,7 @@ goto :URL
 
 :DownloadFormat
 set "DownloadFormat="
-cls & mode con cols=58 lines=30 & title yt-dlp CLI & color cf
+cls & mode con cols=58 lines=37 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
 echo    ^|                      Video                       ^|
@@ -121,6 +121,13 @@ echo    ^|                     Images                       ^|
 echo    ^|--------------------------------------------------^|
 echo    ^| Channel Icon ............................... PFP ^|
 echo    ^| Thumbnail .................................. TMB ^|
+echo    ^|--------------------------------------------------^|
+echo    ^|                      Subs                        ^|
+echo    ^|--------------------------------------------------^|
+echo    ^| SRT ........................................ SRT ^|
+echo    ^| VTT ........................................ VTT ^|
+echo    ^| ASS ........................................ ASS ^|
+echo    ^| LRC ........................................ LRC ^|
 echo    \__________________________________________________/
 echo.
 set /p DownloadFormat="Download format: "
@@ -143,6 +150,11 @@ if /i "%DownloadFormat%" equ "wav" goto :DownloadLossless
 :: Images
 if /i "%DownloadFormat%" equ "pfp" goto :DownloadIcon
 if /i "%DownloadFormat%" equ "tmb" goto :DownloadThumbnail
+:: Subs
+if /i "%DownloadFormat%" equ "srt" goto :DownloadSubs
+if /i "%DownloadFormat%" equ "vtt" goto :DownloadSubs
+if /i "%DownloadFormat%" equ "ass" goto :DownloadSubs
+if /i "%DownloadFormat%" equ "lrc" goto :DownloadSubs
 cls & title Error! & color 0c
 echo You must enter a format to proceed... & pause > nul
 goto :DownloadFormat
@@ -176,6 +188,12 @@ goto :AudioQuality
 cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
 ".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Videos\yt-dlp\"
+goto :MainMenu
+
+:DownloadSubs
+cls & mode con cols=130 lines=30 & title Subs download in progress... & color 0a
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "D:\Videos\yt-dlp\%%(title)s.%%(ext)s"
+start "" explorer "D:\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadAudio
