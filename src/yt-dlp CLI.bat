@@ -193,7 +193,7 @@ goto :MainMenu
 :DownloadSubs
 cls & mode con cols=130 lines=30 & title Subtitles download in progress... & color 0a
 ".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
-start "" explorer "D:\Videos\yt-dlp\"
+start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadAudio
