@@ -122,12 +122,12 @@ echo    ^|--------------------------------------------------^|
 echo    ^| Channel Icon ............................... PFP ^|
 echo    ^| Thumbnail .................................. TMB ^|
 echo    ^|--------------------------------------------------^|
-echo    ^|                      Subs                        ^|
+echo    ^|                    Subtitles                     ^|
 echo    ^|--------------------------------------------------^|
-echo    ^| SRT ........................................ SRT ^|
-echo    ^| VTT ........................................ VTT ^|
-echo    ^| ASS ........................................ ASS ^|
-echo    ^| LRC ........................................ LRC ^|
+echo    ^| SubRip Subtitle ............................ SRT ^|
+echo    ^| Web Video Text Track ....................... VTT ^|
+echo    ^| Advanced SubStation Alpha Subtitle ......... ASS ^|
+echo    ^| Lyrucs Subtitle ............................ LRC ^|
 echo    \__________________________________________________/
 echo.
 set /p DownloadFormat="Download format: "
@@ -191,8 +191,8 @@ start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadSubs
-cls & mode con cols=130 lines=30 & title Subs download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "D:\Videos\yt-dlp\%%(title)s.%%(ext)s"
+cls & mode con cols=130 lines=30 & title Subtitles download in progress... & color 0a
+".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "D:\Videos\yt-dlp\"
 goto :MainMenu
 
