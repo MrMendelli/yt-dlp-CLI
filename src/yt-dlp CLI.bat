@@ -127,7 +127,7 @@ echo    ^|--------------------------------------------------^|
 echo    ^| SubRip Subtitle ............................ SRT ^|
 echo    ^| Web Video Text Track ....................... VTT ^|
 echo    ^| Advanced SubStation Alpha Subtitle ......... ASS ^|
-echo    ^| Lyrucs Subtitle ............................ LRC ^|
+echo    ^| Lyrics Subtitle ............................ LRC ^|
 echo    \__________________________________________________/
 echo.
 set /p DownloadFormat="Download format: "
