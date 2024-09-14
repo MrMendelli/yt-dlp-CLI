@@ -1,5 +1,5 @@
 ## 09/13/24
-### Bugfix _([``](https://github.com/MrMendelli/yt-dlp-CLI/commit/))_
+### Bugfix _([`4be58c8`](https://github.com/MrMendelli/yt-dlp-CLI/commit/4be58c826de42b9f3d06fabaedfcb14f8f895ac5))_
 ```diff
 + Added changelog
 + Fixed issue #3
