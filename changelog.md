@@ -1,4 +1,7 @@
 ## 09/13/24
+### Minor Update _([`0f59dd5`](https://github.com/MrMendelli/yt-dlp-CLI/commit/0f59dd596d49cee59193db1293aaf996a66d4478))_
+* changelog correction
+
 ### Bugfix _([`4be58c8`](https://github.com/MrMendelli/yt-dlp-CLI/commit/4be58c826de42b9f3d06fabaedfcb14f8f895ac5))_
 ```diff
 + Added changelog
