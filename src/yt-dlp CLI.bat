@@ -3,9 +3,13 @@
 :: Written by Mr. Mendelli
 :: GitHub: https://github.com/MrMendelli/yt-dlp-CLI
 
-md ".\yt-dlp\"
+md "%~dp0bin\" > nul 2>&1
+move /y "ffmpeg\*.*" "bin\"
+rmdir "ffmpeg" /s /q
+move /y "yt-dlp\*.*" "bin\"
+rmdir "yt-dlp" /s /q
 :yt-dlpCheck
-if exist ".\yt-dlp\yt-dlp.exe" goto :ffmpegCheck
+if exist ".\bin\yt-dlp.exe" goto :ffmpegCheck
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="yt-dlp.exe not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadyt-dlp
@@ -17,15 +21,15 @@ goto :yt-dlpCheck
 :Downloadyt-dlp
 cls & mode con cols=58 lines=5 & title yt-dlp CLI & color 0e & echo.
 echo 1. Download yt-dlp_win.zip
-echo 2. Extract contents to .\yt-dlp\
+echo 2. Extract contents to .\bin\
 echo 3. Press any key to continue once installation is complete
 start https://github.com/yt-dlp/yt-dlp/releases/latest/
 pause > nul
 goto :yt-dlpCheck
 
 :ffmpegCheck
-if not exist ".\yt-dlp\yt-dlp.exe" goto :yt-dlpCheck
-if exist ".\ffmpeg\ffmpeg.exe" goto :MainMenu
+if not exist ".\bin\yt-dlp.exe" goto :yt-dlpCheck
+if exist ".\bin\ffmpeg.exe" goto :MainMenu
 cls & mode con cols=58 lines=3 & title Error! & color 0c & echo.
 set /p choice="ffmpeg not found! Download now? "
 if /i "%choice%" equ "Y" goto :Downloadffmpeg
@@ -37,13 +41,15 @@ goto :ffmpegCheck
 :Downloadffmpeg
 cls & mode con cols=58 lines=5 & title yt-dlp CLI & color 0e & echo.
 echo 1. Download ffmpeg from either mirror
-echo 2. Extract contents of bin to .\yt-dlp\
+echo 2. Extract contents of bin to .\bin\
 echo 3. Press any key to continue once installation is complete
 start https://ffmpeg.org/download.html#build-windows/
 pause > nul
 goto :yt-dlpCheck
 
 :MainMenu
+set ytdlp="%~dp0bin\yt-dlp.exe"
+set ffmpeg="%~dp0bin\ffmpeg.exe"
 set "MenuChoice="
 cls & mode con cols=58 lines=13 & title yt-dlp CLI & color cf
 echo     __________________________________________________
@@ -68,13 +74,13 @@ goto :MainMenu
 
 :Help
 cls
-".\yt-dlp\yt-dlp.exe" --help> ".\Help.txt"
+%ytdlp% --help> ".\Help.txt"
 start "" notepad ".\Help.txt"
 goto :MainMenu
 
 :Update
 cls & mode con cols=130 lines=30 & color 0f
-".\yt-dlp\yt-dlp.exe" -U
+%ytdlp% -U
 pause
 goto :MainMenu
 
@@ -186,37 +192,37 @@ goto :AudioQuality
 
 :DownloadVideo
 cls & mode con cols=130 lines=30 & title Video download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadSubs
 cls & mode con cols=130 lines=30 & title Subtitles download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Videos\yt-dlp\"
 goto :MainMenu
 
 :DownloadAudio
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
 rename "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
 
 :DownloadLossless
 cls & mode con cols=130 lines=30 & title Audio download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% -x --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% -x --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Music\yt-dlp\"
 goto :MainMenu
 
 :DownloadIcon
 cls & mode con cols=130 lines=30 & title Channel icon download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --playlist-items 0 --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --playlist-items 0 --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Pictures\yt-dlp\"
 goto :MainMenu
 
 :DownloadThumbnail
 cls & mode con cols=130 lines=30 & title Thumbnail download in progress... & color 0a
-".\yt-dlp\yt-dlp.exe" --cookies "cookies.txt" %URL% --skip-download --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --skip-download --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
 start "" explorer "%userprofile%\Pictures\yt-dlp\"
 goto :MainMenu
