@@ -1,3 +1,12 @@
+## 10/12/24
+### Major Update
+```diff
++ Added thumbnail embedding
++ Added chapter embedding
++ Added metadata embedding
+* Implemtnted previous menu return functionality
+```
+
 ## 10/11/24
 ### Moderate Update
 ```diff

@@ -86,13 +86,15 @@ goto :MainMenu
 
 :URL
 set "URL="
-cls & mode con cols=58 lines=7 & title yt-dlp CLI & color cf
+cls & mode con cols=58 lines=8 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
 echo    ^|          Video / Playlist / Channel URL          ^|
 echo    \__________________________________________________/
 echo.
+echo ^*Enter -r to return to previous menu.
 set /p URL="URL: "
+if /i "%URL%" equ "-r" goto :MainMenu
 if /i "%URL%" neq "" goto :DownloadFormat
 cls & title Error! & color 0c
 echo You must enter a URL to proceed... & pause > nul
@@ -100,7 +102,7 @@ goto :URL
 
 :DownloadFormat
 set "DownloadFormat="
-cls & mode con cols=58 lines=37 & title yt-dlp CLI & color cf
+cls & mode con cols=58 lines=38 & title yt-dlp CLI & color cf
 echo     __________________________________________________
 echo    /                                                  \
 echo    ^|                      Video                       ^|
@@ -136,8 +138,10 @@ echo    ^| Advanced SubStation Alpha Subtitle ......... ASS ^|
 echo    ^| Lyrics Subtitle ............................ LRC ^|
 echo    \__________________________________________________/
 echo.
+echo ^*Enter -r to return to previous menu.
 set /p DownloadFormat="Download format: "
 :: Video
+if /i "%DownloadFormat%" equ "-r" goto :URL
 if /i "%DownloadFormat%" equ "avi" goto :DownloadVideo
 if /i "%DownloadFormat%" equ "flv" goto :DownloadVideo
 if /i "%DownloadFormat%" equ "mkv" goto :DownloadVideo
@@ -174,7 +178,9 @@ echo    ^|               Output Audio Quality               ^|
 echo    \__________________________________________________/
 echo.
 echo *Highest= 0, lowest= 10
+echo ^*Enter -r to return to previous menu.
 set /p AudioQuality="Audio quality (0-10): "
+if /i "%AudioQuality%" equ "-r" goto :DownloadFormat
 if /i "%AudioQuality%" equ "0" goto :DownloadAudio
 if /i "%AudioQuality%" equ "1" goto :DownloadAudio
 if /i "%AudioQuality%" equ "2" goto :DownloadAudio
@@ -192,36 +198,36 @@ goto :AudioQuality
 
 :DownloadVideo
 cls & mode con cols=140 lines=30 & title Video download in progress... & color 0e & echo.
-%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --remux-video %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
-if %errorlevel% equ 0 (start "" explorer "%userprofile%\Videos\yt-dlp") else (echo. & pause)
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --remux-video %DownloadFormat% --embed-chapters --add-metadata --embed-thumbnail -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
+if %errorlevel% equ 0 (echo. & echo Download completed. &  pause & start "" explorer "%userprofile%\Videos\yt-dlp") else (echo. & pause)
 goto :MainMenu
 
 :DownloadSubs
 cls & mode con cols=140 lines=30 & title Subtitles download in progress... & color 0e & echo.
 %ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --skip-download --write-subs --sub-langs all --convert-subtitles %DownloadFormat% -o "%userprofile%\Videos\yt-dlp\%%(title)s.%%(ext)s"
-if %errorlevel% equ 0 (start "" explorer "%userprofile%\Videos\yt-dlp") else (echo. & pause)
+if %errorlevel% equ 0 (pause & echo Download completed. &  start "" explorer "%userprofile%\Videos\yt-dlp")echo. &  else (echo. & pause)
 goto :MainMenu
 
 :DownloadAudio
 cls & mode con cols=140 lines=30 & title Audio download in progress... & color 0e & echo.
-%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% -x --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
-if %errorlevel% equ 0 (start "" explorer "%userprofile%\Music\yt-dlp" & ren "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul) else (echo. & pause)
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% -x --add-metadata --audio-format %DownloadFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+if %errorlevel% equ 0 (echo. & echo Download completed. &  pause & start "" explorer "%userprofile%\Music\yt-dlp" & ren "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul) else (echo. & pause)
 goto :MainMenu
 
 :DownloadLossless
 cls & mode con cols=140 lines=30 & title Audio download in progress... & color 0e & echo.
-%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% -x --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
-if %errorlevel% equ 0 (start "" explorer "%userprofile%\Music\yt-dlp") else (echo. & pause)
+%ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% -x --add-metadata --audio-format %DownloadFormat% -o "%userprofile%\Music\yt-dlp\%%(title)s.%%(ext)s"
+if %errorlevel% equ 0 (echo. & echo Download completed. &  pause & start "" explorer "%userprofile%\Music\yt-dlp") else (echo. & pause)
 goto :MainMenu
 
 :DownloadIcon
 cls & mode con cols=140 lines=30 & title Channel icon download in progress... & color 0e & echo.
 %ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --playlist-items 0 --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
-if %errorlevel% equ 0 (start "" explorer "%userprofile%\Pictures\yt-dlp") else (echo. & pause)
+if %errorlevel% equ 0 (echo. & echo Download completed. &  pause & start "" explorer "%userprofile%\Pictures\yt-dlp") else (echo. & pause)
 goto :MainMenu
 
 :DownloadThumbnail
 cls & mode con cols=140 lines=30 & title Thumbnail download in progress... & color 0e & echo.
 %ytdlp% --cookies "cookies.txt" --ffmpeg-location=%ffmpeg% %URL% --skip-download --write-thumbnail -o "%userprofile%\Pictures\yt-dlp\%%(title)s.%%(ext)s"
-if %errorlevel% equ 0 (start "" explorer "%userprofile%\Pictures\yt-dlp") else (echo. & pause)
+if %errorlevel% equ 0 (echo. & echo Download completed. & pause & start "" explorer "%userprofile%\Pictures\yt-dlp") else (echo. & pause)
 goto :MainMenu
