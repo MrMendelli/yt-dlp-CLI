@@ -1,4 +1,24 @@
-## 10/11/24
+## 10/15/2024
+### Major Update
+```diff
++ Added run option for regular execution
++ Added thumbnail embedding
++ Added chapter embedding
++ Added subtitle embedding
++ Added metadata embedding
++ Added search option
++ Added video download structure option
++ Added audio download structure option
+- Removed main menu exit option
+* Various UI changes
+	* Implemented previous menu return functionality
+	* Adjusted contextual titles
+	* Adjusted messaging
+	* Adjusted layout and sorting
+	* Adjusted color scheme
+```
+
+## 10/11/2024
 ### Moderate Update
 ```diff
 + Improved error handling
@@ -6,7 +26,7 @@
 ```
 * Special thanks to Rhyknowscerious on GitHub and [io-oi on Super User](https://superuser.com/a/1857954/689784).
 
-## 09/13/24
+## 09/13/2024
 ### Minor Update
 ```diff
 * changelog correction
