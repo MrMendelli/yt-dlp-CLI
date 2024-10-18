@@ -1,3 +1,9 @@
+## 10/17/2024
+### Moderate Update
+```diff
+* Fixed critical audio download bug
+```
+
 ## 10/15/2024
 ### Major Update
 ```diff

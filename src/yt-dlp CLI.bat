@@ -308,14 +308,15 @@ if %MediaFormat% equ "opus" goto :Lossy
 if %MediaFormat% equ "vorbis" goto :Lossy
 if %MediaFormat% equ "wav" goto :Lossless
 
-:Lossy
-%ytdlp% --ffmpeg-location=%ffmpeg% --cookies "cookies.txt" %URL% -x --add-metadata --audio-format %MediaFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%DownloadType%"
-if %errorlevel% equ 0 (echo. & echo Download completed. & pause & start "" explorer "%userprofile%\Music\yt-dlp" & ren "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg" > nul) else (echo. & pause)
-goto :MainMenu
-
 :Lossless
 %ytdlp% --ffmpeg-location=%ffmpeg% --cookies "cookies.txt" %URL% -x --add-metadata --audio-format %MediaFormat% -o "%userprofile%\Music\yt-dlp\%DownloadType%"
-if %errorlevel% equ 0 (echo. & echo Download completed. & pause & start "" explorer "%userprofile%\Music\yt-dlp" > nul) else (echo. & pause)
+if %errorlevel% equ 0 (echo. & echo Download completed. & pause & start "" explorer "%userprofile%\Music\yt-dlp") else (echo. & pause)
+goto :MainMenu
+
+:Lossy
+%ytdlp% --ffmpeg-location=%ffmpeg% --cookies "cookies.txt" %URL% -x --add-metadata --audio-format %MediaFormat% --audio-quality %AudioQuality% -o "%userprofile%\Music\yt-dlp\%DownloadType%"
+ren "%userprofile%\Music\yt-dlp\*.vorbis" "*.ogg"
+if %errorlevel% equ 0 (echo. & echo Download completed. & pause & start "" explorer "%userprofile%\Music\yt-dlp") else (echo. & pause)
 goto :MainMenu
 
 :DownloadIcon
